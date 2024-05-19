@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useReducer, useState } from "react";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
@@ -19,6 +19,16 @@ import Above18 from "./AgeGroup/Above18";
 import { useForm } from "react-hook-form";
 import { insertData } from "./service";
 
+function reducer(state, action) {
+  if ((action.type = "under14")) {
+    return {
+      ...state,
+      teamData14: action.data,
+    };
+  }
+  //.. same create for the other ages
+}
+
 const Registration = () => {
   const [value, setValue] = useState(0);
 
@@ -30,7 +40,9 @@ const Registration = () => {
   ]);
   const [teamData18, setteamData18] = useState([]);
   const [teamDataA18, setteamDataA18] = useState([]);
-
+  const [state, dispatch] = useReducer(reducer, {
+    teamData14: [{ Name: "", Dob: "", Age: "" }], // same create initial state for all other age group. Using reducer bcoz it is cleaner.
+  });
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -217,8 +229,10 @@ const Registration = () => {
               </TabPanel>
               <TabPanel value={1}>
                 <Under14
-                  setTeamData14={setteamData14}
-                  teamData14={teamData14}
+                  setTeamData14={
+                    (data) => dispatch({ type: "under14", data: data }) // make sure to write this dispatch for all other age group
+                  }
+                  teamData14={state.teamData14}
                 />
               </TabPanel>
               <TabPanel value={2}>
