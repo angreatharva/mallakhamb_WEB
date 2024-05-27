@@ -3,28 +3,18 @@ import { useForm } from "react-hook-form";
 import Alert from "@mui/material/Alert";
 
 function Under14({ setTeamData14, teamData14 }) {
-  const [recordList, setRecordList] = useState([
-    { Name: "", Dob: "", Age: "" },
-  ]);
-  //   useMemo(() => console.log(recordList), [recordList]);
   const handleClick = (data) => {
+    console.log(data.length);
     if (data.length < 6) {
-      setRecordList((prev) => [...prev, { Name: "", Dob: "", Age: "" }]);
+      setTeamData14([...data, { Name: "", Dob: "", Age: "" }]);
     }
   };
 
-  // useMemo(
-  //   () => setTeamData14((prev) => ({ ...prev, under14: recordList })),
-  //   [recordList]
-  // );
   const handleInputChange = (index, value, field) => {
     const newData = [...teamData14]; // Create a copy of the original array
     newData[index][field] = value; // Update the value of the corresponding object
     setTeamData14(newData);
   };
-  useEffect(() => {
-    console.log(recordList);
-  }, []);
 
   return (
     <div>
@@ -81,12 +71,12 @@ function Under14({ setTeamData14, teamData14 }) {
         <button
           type="button"
           class="btn btn-outline-success"
-          onClick={() => handleClick(recordList)}
+          onClick={() => handleClick(teamData14)}
         >
           +Add
         </button>
       </div>
-      {recordList.length >= 6 && (
+      {teamData14.length >= 6 && (
         <Alert
           variant="outlined"
           severity="warning"
