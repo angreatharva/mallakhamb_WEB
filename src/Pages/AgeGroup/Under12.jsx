@@ -2,25 +2,18 @@ import React, { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import Alert from "@mui/material/Alert";
 
-function Under12({ setTeamData12 }) {
-  const [recordList, setRecordList] = useState([
-    { Name: "", Dob: "", Age: "" },
-  ]);
-
+function Under12({ setTeamData12, teamData12 }) {
   const handleClick = (data) => {
+    console.log(data.length);
     if (data.length < 6) {
-      setRecordList((prev) => [...prev, { Name: "", Dob: "", Age: "" }]);
+      setTeamData12([...data, { Name: "", Dob: "", Age: "" }]);
     }
   };
 
-  useMemo(
-    () => setTeamData12((prev) => ({ ...prev, under12: recordList })),
-    [recordList]
-  );
   const handleInputChange = (index, value, field) => {
-    const newData = [...recordList];
-    newData[index][field] = value;
-    setRecordList(newData);
+    const newData = [...teamData12]; // Create a copy of the original array
+    newData[index][field] = value; // Update the value of the corresponding object
+    setTeamData12(newData);
   };
 
   return (
@@ -36,11 +29,12 @@ function Under12({ setTeamData12 }) {
           <label>Age</label>
         </div>
       </div>
-      {recordList?.map((data, index) => (
+      {teamData12?.map((data, index) => (
         <div className="row mt-2">
           <div className="col">
             <input
               type="text"
+              value={data?.Name}
               className="form-control"
               name="Name"
               onChange={(event) =>
@@ -51,6 +45,7 @@ function Under12({ setTeamData12 }) {
           <div className="col">
             <input
               type="text"
+              value={data?.Age}
               className="form-control"
               name="DOB"
               onChange={(event) =>
@@ -74,12 +69,12 @@ function Under12({ setTeamData12 }) {
         <button
           type="button"
           class="btn btn-outline-success"
-          onClick={() => handleClick(recordList)}
+          onClick={() => handleClick(teamData12)}
         >
           +Add
         </button>
       </div>
-      {recordList.length >= 6 && (
+      {teamData12.length >= 6 && (
         <Alert
           variant="outlined"
           severity="warning"

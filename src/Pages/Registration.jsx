@@ -20,7 +20,12 @@ import { useForm } from "react-hook-form";
 import { insertData } from "./service";
 
 function reducer(state, action) {
-  if ((action.type = "under14")) {
+  if ((action.type = "under12")) {
+    return {
+      ...state,
+      teamData12: action.data,
+    };
+  } else if ((action.type = "under14")) {
     return {
       ...state,
       teamData14: action.data,
@@ -38,9 +43,14 @@ const Registration = () => {
   const [teamData14, setteamData14] = useState([
     { Name: "", Dob: "", Age: "" },
   ]);
-  const [teamData18, setteamData18] = useState([]);
-  const [teamDataA18, setteamDataA18] = useState([]);
+  const [teamData18, setteamData18] = useState([
+    { Name: "", Dob: "", Age: "" },
+  ]);
+  const [teamDataA18, setteamDataA18] = useState([
+    { Name: "", Dob: "", Age: "" },
+  ]);
   const [state, dispatch] = useReducer(reducer, {
+    teamData12: [{ Name: "", Dob: "", Age: "" }], // same create initial state for all other age group. Using reducer bcoz it is cleaner.
     teamData14: [{ Name: "", Dob: "", Age: "" }], // same create initial state for all other age group. Using reducer bcoz it is cleaner.
   });
   const handleChange = (event, newValue) => {
@@ -225,7 +235,12 @@ const Registration = () => {
             </Tabs>
             <div>
               <TabPanel value={0}>
-                <Under12 setTeamData12={setteamData12} />
+                <Under12
+                  setTeamData12={
+                    (data) => dispatch({ type: "under12", data: data }) // make sure to write this dispatch for all other age group
+                  }
+                  teamData12={state.teamData12}
+                />
               </TabPanel>
               <TabPanel value={1}>
                 <Under14
