@@ -45,7 +45,7 @@ function Under12({ setTeamData12, teamData12 }) {
           <div className="col">
             <input
               type="text"
-              value={data?.Age}
+              value={data?.Dob}
               className="form-control"
               name="DOB"
               onChange={(event) =>
@@ -56,6 +56,7 @@ function Under12({ setTeamData12, teamData12 }) {
           <div className="col">
             <input
               type="text"
+              value={data?.Age}
               className="form-control"
               name="Age"
               onChange={(event) =>

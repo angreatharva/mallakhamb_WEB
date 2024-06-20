@@ -5,6 +5,31 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Bhausaheb Ranade 2k24</title>
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <script>
+      window.onload = function () {
+        const image = new Image();
+        image.src = "/favicon.png";
+        image.onload = function () {
+          const canvas = document.createElement("canvas");
+          const context = canvas.getContext("2d");
+          const size = 32;
+          canvas.width = size;
+          canvas.height = size;
+          const radius = size / 5;
+          context.beginPath();
+          context.moveTo(size / 2, 0);
+          context.arcTo(size, 0, size, size, radius);
+          context.arcTo(size, size, 0, size, radius);
+          context.arcTo(0, size, 0, 0, radius);
+          context.arcTo(0, 0, size, 0, radius);
+          context.clip();
+          context.drawImage(image, 0, 0, size, size);
+          const link = document.getElementById("favicon");
+          link.href = canvas.toDataURL("image/png");
+        };
+      };
+    </script>
   </head>
   <body>
     <div id="root"></div>

@@ -20,15 +20,25 @@ import { useForm } from "react-hook-form";
 import { insertData } from "./service";
 
 function reducer(state, action) {
-  if ((action.type = "under12")) {
+  if (action.type === "under12") {
     return {
       ...state,
       teamData12: action.data,
     };
-  } else if ((action.type = "under14")) {
+  } else if (action.type === "under14") {
     return {
       ...state,
       teamData14: action.data,
+    };
+  } else if (action.type === "under18") {
+    return {
+      ...state,
+      teamData18: action.data,
+    };
+  } else if (action.type === "above18") {
+    return {
+      ...state,
+      teamDataA18: action.data,
     };
   }
   //.. same create for the other ages
@@ -52,6 +62,8 @@ const Registration = () => {
   const [state, dispatch] = useReducer(reducer, {
     teamData12: [{ Name: "", Dob: "", Age: "" }], // same create initial state for all other age group. Using reducer bcoz it is cleaner.
     teamData14: [{ Name: "", Dob: "", Age: "" }], // same create initial state for all other age group. Using reducer bcoz it is cleaner.
+    teamData18: [{ Name: "", Dob: "", Age: "" }],
+    teamDataA18: [{ Name: "", Dob: "", Age: "" }],
   });
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -251,10 +263,20 @@ const Registration = () => {
                 />
               </TabPanel>
               <TabPanel value={2}>
-                <Under18 setTeamData18={setteamData18} />
+                <Under18
+                  setTeamData18={
+                    (data) => dispatch({ type: "under18", data: data }) // make sure to write this dispatch for all other age group
+                  }
+                  teamData18={state.teamData18}
+                />
               </TabPanel>
               <TabPanel value={3}>
-                <Above18 setTeamDataA18={setteamDataA18} />
+                <Above18
+                  setTeamDataA18={
+                    (data) => dispatch({ type: "above18", data: data }) // make sure to write this dispatch for all other age group
+                  }
+                  teamDataA18={state.teamDataA18}
+                />
               </TabPanel>
             </div>
           </TabContext>
